@@ -1,5 +1,6 @@
 $(document).ready(function() {
   config();
+  listen();
 });
 
 // buttonArr size = 20
@@ -20,6 +21,8 @@ var config = function(){
 
     for(var j = 0; j < BUTTONS_PER_ROW; j++){
       var $button = $('<button>');
+      $button.attr('id', counter);
+      $button.attr('name', buttonArr[counter]);
       $button.addClass('calcButton');
       $button.addClass('btn');
       $button.text(buttonArr[counter]);
@@ -28,16 +31,17 @@ var config = function(){
     }
     $('#calc').append($buttonRow);
   }
+}
 
-  // buttonArr.forEach(function(v,i,a){
-  //   $('#calc').append('<div>').text(v);
-  // });
+var listen = function() {
 
-  // $('.calcButton').on('click', function(e){
-  //   if($(this).text() === 'On!'){
-  //     $(this).text('Off!');
-  //   } else {
-  //     $(this).text('On!');
-  //   }
-  // });
+    $('.calcButton').on('click', function(e){
+
+      e.preventDefault();
+
+      var btnName = this.name;
+      var btnId = this.id;
+
+
+  });
 }
