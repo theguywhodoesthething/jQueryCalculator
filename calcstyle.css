@@ -11,6 +11,10 @@
   padding-top: 25px;
 }
 
+.result {
+  text-align: right;
+}
+
 .notused {
     /*display: inline-block;
     width: 150px;

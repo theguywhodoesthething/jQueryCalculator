@@ -88,16 +88,31 @@ var newEqDiv = function() {
 var calculateResults = function(eqArr) {
     try {
 
-      // while(eqArr.length > 1) {
+      while(eqArr.length > 1) {
         if(eqArr.includes('x')) {
           var idx = eqArr.indexOf('x');
-          var product = eqArr[idx-1] * eqArr[idx+1];
-          eqArr.splice(eqArr[idx-1], 3, product);
+          var product = parseInt(eqArr[idx-1]) * parseInt(eqArr[idx+1]);
+          eqArr.splice((idx-1), 3, product);
+        } else if (eqArr.includes('÷')) {
+          var idx = eqArr.indexOf('÷');
+          var quotient = parseInt(eqArr[idx-1]) / parseInt(eqArr[idx+1]);
+          eqArr.splice((idx-1), 3, quotient);
+        } else if (eqArr.includes('+')) {
+          var idx = eqArr.indexOf('+');
+          var sum = parseInt(eqArr[idx-1]) + parseInt(eqArr[idx+1]);
+          eqArr.splice((idx-1), 3, sum);
+        } else if (eqArr.includes('-')) {
+          var idx = eqArr.indexOf('-');
+          var difference = parseInt(eqArr[idx-1]) - parseInt(eqArr[idx+1]);
+          eqArr.splice((idx-1), 3, difference);
         }
-      // }
-      console.log(eqArr);
+      }
+      newEqDiv();
+
+      $('#eqTop').children().last().addClass('result');
+      $('#eqTop').children().last().text(eqArr);
 
     } catch (e) {
-      console.log(ERR_MSG)
-    }
+      newEqDiv();
+      $('#eqTop').children().last().text(ERR_MSG);    }
 }
