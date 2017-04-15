@@ -33,7 +33,7 @@ var config = function() {
         $('#calc').append($buttonRow);
     }
     var $eqDiv = $('<div>');
-    $eqDiv.attr('id', 'equations');
+    $eqDiv.attr('id', 'eqTop');
     $('#calc').append($eqDiv);
     newEqDiv();
 }
@@ -56,6 +56,7 @@ var buildEquation = function(name, index) {
             equation = [];
             break;
         case 19:
+            calculateResults(equation);
             equation = [];
             newEqDiv();
             return;
@@ -69,26 +70,34 @@ var buildEquation = function(name, index) {
             equation.push(name)
             break;
         default:
-            var lastEntry = equation[equation.length - 1];
 
-            if (isNaN(lastEntry)) {
-                equation.push(name);
-            } else {
-                equation[equation.length - 1] += name;
-            }
+            isNaN(equation[equation.length - 1]) ?
+                equation.push(name) : equation[equation.length - 1] += name;
+
     }
-    $('#equations:last-child').text(equation);
+    $('#eqTop').children().last().text(equation.join(' '));
 }
 
 var newEqDiv = function() {
 
-    console.log("hello?");
-
     var $eq = $('<div>');
     $eq.addClass('eqDiv');
-    $('body').append($eq);
+    $('#eqTop').append($eq);
+}
 
-    $eqDiv = $('<div>');
-    $eqDiv.attr('id', 'equations');
-    $('#calc').append($eqDiv);
+var calculateResults = function(eqArr) {
+    try {
+
+      // while(eqArr.length > 1) {
+        if(eqArr.includes('x')) {
+          var idx = eqArr.indexOf('x');
+          var product = eqArr[idx-1] * eqArr[idx+1];
+          eqArr.splice(eqArr[idx-1], 3, product);
+        }
+      // }
+      console.log(eqArr);
+
+    } catch (e) {
+      console.log(ERR_MSG)
+    }
 }
