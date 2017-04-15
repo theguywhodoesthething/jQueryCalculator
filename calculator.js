@@ -19,8 +19,9 @@ var config = function(){
     $buttonRow.addClass('buttonRow');
 
     for(var j = 0; j < BUTTONS_PER_ROW; j++){
-      var $button = $('<div>');
-      $button.addClass('button');
+      var $button = $('<button>');
+      $button.addClass('calcButton');
+      $button.addClass('btn');
       $button.text(buttonArr[counter]);
       $buttonRow.append($button);
       counter++;
