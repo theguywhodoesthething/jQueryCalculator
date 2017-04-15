@@ -30,9 +30,12 @@ var config = function() {
 
             counter++;
         }
-
         $('#calc').append($buttonRow);
     }
+    var $eqDiv = $('<div>');
+    $eqDiv.attr('id', 'equations');
+    $('#calc').append($eqDiv);
+    newEqDiv();
 }
 
 var listen = function() {
@@ -40,7 +43,6 @@ var listen = function() {
     $('.calcButton').on('click', function(e) {
 
         e.preventDefault();
-
         buildEquation(this.name, parseInt(this.id));
     });
 }
@@ -54,8 +56,9 @@ var buildEquation = function(name, index) {
             equation = [];
             break;
         case 19:
-            console.log(equation);
-            break;
+            equation = [];
+            newEqDiv();
+            return;
         case 1:
         case 2:
         case 3:
@@ -74,15 +77,18 @@ var buildEquation = function(name, index) {
                 equation[equation.length - 1] += name;
             }
     }
-
-    appendEquation();
-
+    $('#equations:last-child').text(equation);
 }
 
-var appendEquation = function() {
+var newEqDiv = function() {
 
-    $eq = $('<div>');
-    $eq.text(equation);
-    $('#calc').append($eq);
+    console.log("hello?");
 
+    var $eq = $('<div>');
+    $eq.addClass('eqDiv');
+    $('body').append($eq);
+
+    $eqDiv = $('<div>');
+    $eqDiv.attr('id', 'equations');
+    $('#calc').append($eqDiv);
 }
