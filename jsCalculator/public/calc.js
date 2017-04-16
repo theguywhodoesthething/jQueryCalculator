@@ -24,14 +24,11 @@ var main = function() {
 
         for (var j = 0; j < BUTTONS_PER_ROW; j++) {
 
-            var $numberTd = $('<td>');
-            $numberTd.addClass('number');
-            $numberRow.append($numberTd);
-
             var $numButton = $('<button>');
+            $numButton.addClass('number');
             $numButton.attr('name', numberArr[counter]);
             $numButton.text(numberArr[counter]);
-            $numberTd.append($numButton);
+            $numberRow.append($numButton);
 
             counter++;
         }
@@ -42,39 +39,31 @@ var main = function() {
     $table.append($operationRow);
 
     operationArr.forEach((v,i,a) => {
-      var $operationTd = $('<td>');
-      $operationTd.addClass('operator');
-      $operationRow.append($operationTd);
 
       var $opButton = $('<button>');
+      $opButton.addClass('operator');
       $opButton.attr('name', a[i]);
       $opButton.text(a[i]);
-      $operationTd.append($opButton);
+      $operationRow.append($opButton);
     });
 
     var $sumClearRow = $('<tr>');
     $sumClearRow.addClass('sumClearRow');
     $table.append($sumClearRow);
 
-    var $sumTd = $('<td>');
-    $sumTd.attr('id', 'sum');
-    $sumClearRow.append($sumTd);
-
     var $sumButton = $('<button>');
+    $sumButton.attr('id', 'sum');
     $sumButton.text('SUM');
-    $sumTd.append($sumButton);
-
-    var $clearTd = $('<td>');
-    $clearTd.attr('id', 'clear');
-    $sumClearRow.append($clearTd);
+    $sumClearRow.append($sumButton);
 
     var $clearButton = $('<button>');
+    $clearButton.attr('id', 'clear');
     $clearButton.text('CLEAR');
-    $clearTd.append($clearButton);
+    $sumClearRow.append($clearButton);
 
     var $displayRow = $('<tr>');
     $displayRow.addClass('displayWindow');
-    $table.append($displayRow);
+    $table.prepend($displayRow);
 
     var $displayTd = $('<td>');
     $displayTd.attr('id', 'display');
@@ -84,25 +73,63 @@ var main = function() {
 
 }
 
-var currNum = '';
+var firstNum = '';
+var secondNum = '';
+var opSign = '';
 
 var assignListenersByClass = function() {
 
-  $('td').on('click', function(e) {
+  $('button').on('click', function(e) {
 
     e.preventDefault
 
     var btnClass = $(this).attr('class');
-    var btnName = $(this).attr('name')
+    var btnName = this.name;
+    var btnId = this.id;
 
-    console.log($(this));
-    // console.log(btnName);
-    // console.log(btnClass);
-
-    if (btnClass === 'number') {
-      currNum += btnName;
-       $('display').text(currNum);
+    if (btnClass === 'number' && opSign.length === 0) {
+        firstNum += btnName;
+        $('#display').text(firstNum);
+    } else if (btnClass === 'operator'){
+        opSign = btnName;
+    } else if (btnId === 'sum') {
+      switch(opSign) {
+        case '+':
+          $('#display').text(parseInt(firstNum) + parseInt(secondNum));
+          break;
+        case '-':
+          $('#display').text(parseInt(firstNum) - parseInt(secondNum));
+          break;
+        case '*':
+          $('#display').text(parseInt(firstNum) * parseInt(secondNum));
+          break;
+        case '/':
+          $('#display').text(parseInt(firstNum) / parseInt(secondNum));
+          break;
+        default:
+          firstNum = '';
+          secondNum = '';
+          opSign = '';
+          $('#display').text('ERROR');
+      }
+    } else if (btnId === 'clear') {
+        firstNum = '';
+        secondNum = '';
+        opSign = '';
+        $('#display').empty();
+    } else if (opSign.length === 1 && firstNum.length !== 0){
+        secondNum += btnName;
+        $('#display').text(secondNum);
+    } else {
+        firstNum = '';
+        secondNum = '';
+        opSign = '';
+        $('#display').text('ERROR');
     }
 
-  });
+      console.log(firstNum);
+      console.log(secondNum);
+      console.log(opSign);
+    });
+
 }
