@@ -93,25 +93,38 @@ var assignListenersByClass = function() {
     } else if (btnClass === 'operator'){
         opSign = btnName;
     } else if (btnId === 'sum') {
+
+      var temp;
+
       switch(opSign) {
         case '+':
-          $('#display').text(parseInt(firstNum) + parseInt(secondNum));
+          temp = parseInt(firstNum) + parseInt(secondNum);
+          $('#display').text(temp);
           break;
         case '-':
-          $('#display').text(parseInt(firstNum) - parseInt(secondNum));
+          temp = parseInt(firstNum) - parseInt(secondNum);
+          $('#display').text(temp);
           break;
         case '*':
-          $('#display').text(parseInt(firstNum) * parseInt(secondNum));
+          temp = parseInt(firstNum) * parseInt(secondNum)
+          $('#display').text(temp);
           break;
         case '/':
-          $('#display').text(parseInt(firstNum) / parseInt(secondNum));
+          temp = parseInt(firstNum) / parseInt(secondNum);
+          $('#display').text(temp);
           break;
         default:
           firstNum = '';
           secondNum = '';
           opSign = '';
           $('#display').text('ERROR');
+          return;
       }
+
+      firstNum = temp;
+      secondNum = '';
+      opSign = '';
+
     } else if (btnId === 'clear') {
         firstNum = '';
         secondNum = '';
